@@ -1,0 +1,39 @@
+[
+  {
+    "step": "book",
+    "path": "/sorting/S8?page=2",
+    "field": [
+      "complete"
+    ],
+    "value": false
+  },
+  {
+    "step": "receive",
+    "path": "/sorting/S8?page=2",
+    "field": [
+      "entries",
+      1,
+      "state"
+    ],
+    "value": "loaded"
+  },
+  {
+    "step": "withdraw",
+    "path": "/receiving/handoffs",
+    "field": [
+      "rows",
+      0,
+      "signedBy"
+    ],
+    "value": "B-ground"
+  },
+  {
+    "step": "correction",
+    "path": "/reports/manual",
+    "field": [
+      0,
+      "type"
+    ],
+    "value": "return"
+  }
+]

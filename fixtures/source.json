@@ -1,0 +1,417 @@
+{
+  "steps": [
+    "book",
+    "dispatch",
+    "receive",
+    "withdraw",
+    "correction"
+  ],
+  "routes": {
+    "common": {
+      "GET /tickets/transfers": {
+        "status": 200,
+        "body": [
+          {
+            "traveller": "P17",
+            "segment": "A911-1204",
+            "old": "XA911",
+            "new": "XB303",
+            "transfer": "T7",
+            "state": "confirmed",
+            "at": "2026-12-04T09:04:00+08:00"
+          },
+          {
+            "traveller": "P18",
+            "segment": "A911-1204",
+            "old": "XA911",
+            "new": "XB304",
+            "transfer": "T8",
+            "state": "confirmed",
+            "at": "2026-12-04T09:05:00+08:00"
+          }
+        ]
+      },
+      "GET /sorting/batches": {
+        "status": 200,
+        "body": [
+          {
+            "id": "S8",
+            "page": "/sorting/S8?page=1",
+            "parts": 2
+          }
+        ]
+      },
+      "GET /sorting/S8?page=1": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-01",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 4,
+              "at": "2026-12-04T09:06:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 5,
+              "at": "2026-12-04T09:07:00+08:00"
+            }
+          ],
+          "next": "/sorting/S8?page=2"
+        }
+      },
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-03",
+              "traveller": "P18",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 6,
+              "at": "2026-12-04T09:08:00+08:00"
+            }
+          ],
+          "next": null
+        }
+      },
+      "GET /receiving/handoffs": {
+        "status": 200,
+        "body": {
+          "batch": "G6",
+          "complete": false,
+          "rows": []
+        }
+      },
+      "GET /shifts/handover": {
+        "status": 200,
+        "body": {
+          "shift": "M1",
+          "teams": {
+            "XA911": "A-ground",
+            "XB303": "B-ground",
+            "XB304": "B-west",
+            "load-check": "ramp-east"
+          }
+        }
+      },
+      "GET /reports/manual": {
+        "status": 200,
+        "body": []
+      }
+    },
+    "book": {
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [],
+          "next": null,
+          "complete": false
+        }
+      }
+    },
+    "dispatch": {
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-03",
+              "traveller": "P18",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 6,
+              "at": "2026-12-04T09:08:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "loaded",
+              "seq": 7,
+              "at": "2026-12-04T09:11:00+08:00"
+            }
+          ],
+          "next": null
+        }
+      }
+    },
+    "receive": {
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-03",
+              "traveller": "P18",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 6,
+              "at": "2026-12-04T09:08:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "loaded",
+              "seq": 7,
+              "at": "2026-12-04T09:11:00+08:00"
+            }
+          ],
+          "next": null
+        }
+      },
+      "GET /receiving/handoffs": {
+        "status": 200,
+        "body": {
+          "batch": "G6",
+          "complete": true,
+          "rows": [
+            {
+              "transfer": "T7",
+              "oldTag": "OA-01",
+              "newTag": "NB-19",
+              "accepted": true,
+              "at": "2026-12-04T09:14:00+08:00",
+              "signedBy": "B-ground"
+            },
+            {
+              "transfer": "T8",
+              "oldTag": "OA-03",
+              "newTag": null,
+              "accepted": false,
+              "at": "2026-12-04T09:16:00+08:00",
+              "signedBy": "B-ground"
+            }
+          ]
+        }
+      }
+    },
+    "withdraw": {
+      "GET /tickets/transfers": {
+        "status": 200,
+        "body": [
+          {
+            "traveller": "P17",
+            "segment": "A911-1204",
+            "transfer": "T7",
+            "state": "withdrawn",
+            "at": "2026-12-04T09:22:00+08:00"
+          },
+          {
+            "traveller": "P18",
+            "segment": "A911-1204",
+            "transfer": "T8",
+            "state": "confirmed",
+            "old": "XA911",
+            "new": "XB304"
+          }
+        ]
+      },
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-03",
+              "traveller": "P18",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 6,
+              "at": "2026-12-04T09:08:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "loaded",
+              "seq": 7,
+              "at": "2026-12-04T09:11:00+08:00"
+            }
+          ],
+          "next": null
+        }
+      },
+      "GET /receiving/handoffs": {
+        "status": 200,
+        "body": {
+          "batch": "G6",
+          "complete": true,
+          "rows": [
+            {
+              "transfer": "T7",
+              "oldTag": "OA-01",
+              "newTag": "NB-19",
+              "accepted": true,
+              "at": "2026-12-04T09:14:00+08:00",
+              "signedBy": "B-ground"
+            },
+            {
+              "transfer": "T8",
+              "oldTag": "OA-03",
+              "newTag": null,
+              "accepted": false,
+              "at": "2026-12-04T09:16:00+08:00",
+              "signedBy": "B-ground"
+            }
+          ]
+        }
+      },
+      "GET /sorting/S8?page=1": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-01",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 4,
+              "at": "2026-12-04T09:06:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 5,
+              "at": "2026-12-04T09:07:00+08:00"
+            },
+            {
+              "tag": "OA-01",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "transfer",
+              "state": "awaiting-handoff",
+              "seq": 1,
+              "at": "2026-12-04T09:12:00+08:00",
+              "seen": "2026-12-04T09:24:00+08:00"
+            }
+          ],
+          "next": "/sorting/S8?page=2"
+        }
+      }
+    },
+    "correction": {
+      "GET /tickets/transfers": {
+        "status": 200,
+        "body": [
+          {
+            "traveller": "P17",
+            "segment": "A911-1204",
+            "transfer": "T7",
+            "state": "withdrawn",
+            "at": "2026-12-04T09:22:00+08:00"
+          },
+          {
+            "traveller": "P18",
+            "segment": "A911-1204",
+            "transfer": "T8",
+            "state": "confirmed",
+            "old": "XA911",
+            "new": "XB304"
+          }
+        ]
+      },
+      "GET /sorting/S8?page=2": {
+        "status": 200,
+        "body": {
+          "entries": [
+            {
+              "tag": "OA-03",
+              "traveller": "P18",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "in-sort",
+              "seq": 6,
+              "at": "2026-12-04T09:08:00+08:00"
+            },
+            {
+              "tag": "OA-02",
+              "traveller": "P17",
+              "segment": "A911-1204",
+              "facility": "east",
+              "state": "loaded",
+              "seq": 7,
+              "at": "2026-12-04T09:11:00+08:00"
+            }
+          ],
+          "next": null
+        }
+      },
+      "GET /receiving/handoffs": {
+        "status": 200,
+        "body": {
+          "batch": "G6",
+          "complete": true,
+          "rows": [
+            {
+              "transfer": "T7",
+              "oldTag": "OA-01",
+              "newTag": "NB-19",
+              "accepted": true,
+              "at": "2026-12-04T09:14:00+08:00",
+              "signedBy": "B-ground"
+            },
+            {
+              "transfer": "T8",
+              "oldTag": "OA-03",
+              "newTag": null,
+              "accepted": false,
+              "at": "2026-12-04T09:16:00+08:00",
+              "signedBy": "B-ground"
+            }
+          ]
+        }
+      },
+      "GET /shifts/handover": {
+        "status": 200,
+        "body": {
+          "shift": "M2",
+          "replaces": "M1",
+          "at": "2026-12-04T09:26:00+08:00",
+          "teams": {
+            "XA911": "A-ground-2",
+            "XB303": "B-ground-2",
+            "XB304": "B-west-2",
+            "load-check": "ramp-east-2"
+          }
+        }
+      },
+      "GET /reports/manual": {
+        "status": 200,
+        "body": [
+          {
+            "transfer": "T7",
+            "originalTag": "OA-01",
+            "from": "B-ground",
+            "to": "A-ground",
+            "type": "return",
+            "acceptedBy": [
+              "B-ground",
+              "A-ground"
+            ],
+            "at": "2026-12-04T09:28:00+08:00"
+          }
+        ]
+      }
+    }
+  }
+}
