@@ -7,7 +7,9 @@
     "node": "22.23.4"
   },
   "scripts": {
-    "start": "node sources/source.mjs",
-    "test": "node --test"
+    "start": "node app/server.mjs",
+    "source": "node sources/source.mjs",
+    "test": "node --test",
+    "dev": "node app/dev.mjs"
   }
 }
