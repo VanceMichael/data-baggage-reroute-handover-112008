@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>签转行李交运核对台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>签转行李交运核对台</h1>
+      <p>只读采集 · 合成演练资料 · 不订票、不向行李设备下达装机命令</p>
+    </div>
+    <div class="controls">
+      <button id="refresh" type="button">采集/刷新</button>
+      <span id="status" class="status" role="status">尚未采集</span>
+    </div>
+  </header>
+
+  <section id="overview" class="overview"></section>
+
+  <main class="layout">
+    <aside id="travellers" class="sidebar" aria-label="旅客"></aside>
+    <section id="detail" class="detail" aria-live="polite">
+      <p class="empty">选择左侧旅客查看逐件交运凭据。</p>
+    </section>
+  </main>
+
+  <section class="panels">
+    <section class="panel">
+      <h2>撤销与认领记录</h2>
+      <div id="claims"></div>
+    </section>
+    <section class="panel">
+      <h2>登记双边确认事实</h2>
+      <form id="fact-form" class="fact-form">
+        <label>交运链 <input name="transfer" required placeholder="T7"></label>
+        <label>原条码 <input name="oldTag" required placeholder="OA-01"></label>
+        <label>事实类型
+          <select name="kind">
+            <option value="return">退接（回原航司）</option>
+            <option value="handover">转交（给新航司）</option>
+            <option value="transfer">转交（第三方）</option>
+          </select>
+        </label>
+        <label>交出方 <input name="from" required placeholder="B-ground"></label>
+        <label>接收方 <input name="to" required placeholder="A-ground"></label>
+        <label>双边确认（逗号分隔） <input name="acceptedBy" required placeholder="B-ground,A-ground"></label>
+        <label>现场动作时间 <input name="at" placeholder="2026-12-04T09:28:00+08:00"></label>
+        <label>经办人 <input name="operator" placeholder="工号"></label>
+        <label>班次 <input name="shift" placeholder="M2"></label>
+        <button type="submit">登记事实</button>
+        <p class="hint">事实只记录现场已发生的退接/转交，不生成装机或卸机命令。</p>
+      </form>
+      <p id="fact-status" class="status" role="status"></p>
+    </section>
+  </section>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

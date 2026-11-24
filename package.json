@@ -7,7 +7,9 @@
     "node": "22.23.4"
   },
   "scripts": {
-    "start": "node sources/source.mjs",
+    "start": "node src/server.mjs",
+    "start:source": "node sources/source.mjs",
+    "start:workbench": "node src/server.mjs",
     "test": "node --test"
   }
 }
